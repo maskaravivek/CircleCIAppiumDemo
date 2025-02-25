@@ -11,10 +11,6 @@ jobs:
     executor: android-executor
     steps:
       - checkout
-      - restore_cache:
-          keys:
-            - v1-gradle-{{ checksum "android/build.gradle" }}-{{ checksum "android/app/build.gradle" }}
-            - v1-gradle-
       - run:
           name: Grant execute permission to Gradle wrapper
           command: chmod +x android/gradlew
@@ -26,11 +22,6 @@ jobs:
       - store_artifacts:
           path: android/app/build/outputs/apk/debug/app-debug.apk
           destination: app-debug.apk
-      - save_cache:
-          paths:
-            - ~/.gradle/caches
-            - ~/.gradle/wrapper
-          key: v1-gradle-{{ checksum "android/build.gradle" }}-{{ checksum "android/app/build.gradle" }}
 
 workflows:
   version: 2
