@@ -18,7 +18,7 @@ export const config: Options.Testrunner = {
         }
     ] as WebdriverIO.Capabilities[],
 
-    user: process.env.BROWSERSTACK_USER || 'BROWSERSTACK_USER',
+    user: process.env.BROWSERSTACK_USERNAME || 'BROWSERSTACK_USER',
     key: process.env.BROWSERSTACK_ACCESS_KEY || 'BROWSERSTACK_ACCESS_KEY',
     services: ['browserstack'],
 
