@@ -1,9 +1,7 @@
-import type { Options } from '@wdio/types';
-
-export const config: Options.Testrunner = {
+export const config = {
     // Base config
-    specs: ["../tests/specs/**/app*.spec.ts"],
-    logLevel: 'debug',
+    specs: ["tests/specs/**/app*.spec.js"],
+    logLevel: 'info',
     bail: 0,
     waitforTimeout: 45000,
     connectionRetryTimeout: 120000,
@@ -46,7 +44,7 @@ export const config: Options.Testrunner = {
             "appium:platformVersion": "13.0",
             "appium:orientation": "PORTRAIT",
             "appium:automationName": "UiAutomator2",
-            "appium:app": "/Users/vivekmaskara/Documents/Projects.nosync/tutorials/CircleCIAppiumDemo/app/build/outputs/apk/debug/app-debug.apk",
+            "appium:app": "../android/app/build/outputs/apk/debug/app-debug.apk",
             "appium:appWaitActivity": "com.example.circleciappiumdemo.MainActivity",
             "appium:newCommandTimeout": 240,
         }

@@ -1,7 +1,5 @@
-import type { Options } from '@wdio/types';
-
-export const config: Options.Testrunner = {
-    specs: ["../tests/specs/**/app*.spec.ts"],
+export const config = {
+    specs: ["tests/specs/**/app*.spec.js"],
 
     capabilities: [
         {
@@ -16,13 +14,13 @@ export const config: Options.Testrunner = {
                 sessionName: 'wdio-test'
             }
         }
-    ] as WebdriverIO.Capabilities[],
+    ],
 
     user: process.env.BROWSERSTACK_USERNAME || 'BROWSERSTACK_USER',
     key: process.env.BROWSERSTACK_ACCESS_KEY || 'BROWSERSTACK_ACCESS_KEY',
     services: ['browserstack'],
 
-    logLevel: 'debug',
+    logLevel: 'info',
     bail: 0,
     waitforTimeout: 45000,
     connectionRetryTimeout: 120000,

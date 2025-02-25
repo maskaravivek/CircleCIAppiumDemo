@@ -5,13 +5,10 @@
     },
     "type": "module",
     "scripts": {
-        "android.browserstack.app": "wdio run config/wdio.android.bs.app.conf.ts",
-        "android.app": "wdio run config/wdio.android.app.conf.ts",
-        "lint": "eslint config tests"
+        "android:local": "wdio run wdio.android.local.conf.js",
+        "android:browserstack": "wdio run wdio.android.browserstack.conf.js"
     },
     "devDependencies": {
-        "@typescript-eslint/eslint-plugin": "^8.21.0",
-        "@typescript-eslint/parser": "^8.21.0",
         "@wdio/appium-service": "^9.7.1",
         "@wdio/browserstack-service": "^9.7.1",
         "@wdio/cli": "^9.7.1",
@@ -21,9 +18,6 @@
         "@wdio/spec-reporter": "^9.6.3",
         "appium": "^2.15.0",
         "appium-uiautomator2-driver": "^3.10.0",
-        "appium-xcuitest-driver": "8.1.0",
-        "eslint-plugin-wdio": "^9.6.0",
-        "ts-node": "^10.9.2",
-        "typescript": "^5.7.3"
+        "eslint-plugin-wdio": "^9.6.0"
     }
 }
