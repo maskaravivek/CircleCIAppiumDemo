@@ -6,8 +6,13 @@ executors:
       - image: cimg/android:2025.02
     working_directory: ~/project
 
+  e2e-executor:
+    docker:
+      - image: cimg/node:20.10  # Node.js for WebdriverIO
+    working_directory: ~/project/e2e
+
 jobs:
-  build_and_upload:
+  build:
     executor: android-executor
     steps:
       - checkout
@@ -23,16 +28,59 @@ jobs:
           path: android/app/build/outputs/apk/debug/app-debug.apk
           destination: app-debug.apk
 
-      # Upload APK to BrowserStack
+      # Upload APK to BrowserStack and store APP_URL in a file
       - run:
           name: Upload APK to BrowserStack
           command: |
-            curl -u "$BROWSERSTACK_USERNAME:$BROWSERSTACK_ACCESS_KEY" \
+            APP_URL=$(curl -u "$BROWSERSTACK_USERNAME:$BROWSERSTACK_ACCESS_KEY" \
                  -X POST "https://api-cloud.browserstack.com/app-automate/upload" \
-                 -F "file=@android/app/build/outputs/apk/debug/app-debug.apk"
+                 -F "file=@android/app/build/outputs/apk/debug/app-debug.apk" | jq -r '.app_url')
+            echo "APP_URL=$APP_URL" >> /tmp/browserstack_app_url.env
+
+      # Persist APP_URL for other jobs
+      - persist_to_workspace:
+          root: /tmp
+          paths:
+            - browserstack_app_url.env
+
+  e2e-test:
+    executor: e2e-executor
+    steps:
+      - checkout
+
+      # Attach workspace to get APP_URL
+      - attach_workspace:
+          at: /tmp
+
+      # Load APP_URL into environment variables
+      - run:
+          name: Load APP_URL into Environment
+          command: echo "export BROWSERSTACK_APP_ID=$(cat /tmp/browserstack_app_url.env | cut -d '=' -f2)" >> $BASH_ENV
+
+      # Debugging: Print BROWSERSTACK_APP_ID (Optional)
+      - run:
+          name: Print BROWSERSTACK_APP_ID
+          command: echo "BROWSERSTACK_APP_ID=$BROWSERSTACK_APP_ID"
+
+      # Install dependencies
+      - run:
+          name: Install E2E Dependencies
+          command: |
+            cd e2e
+            npm install
+
+      # Run WebdriverIO Appium E2E tests on BrowserStack
+      - run:
+          name: Run E2E Tests on BrowserStack
+          command: |
+            cd e2e
+            npm run android.browserstack.app
 
 workflows:
   version: 2
-  build_and_test_apk:
+  build_and_test:
     jobs:
-      - build_and_upload
+      - build
+      - e2e-test:
+          requires:
+            - build
