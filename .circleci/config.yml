@@ -7,7 +7,7 @@ executors:
     working_directory: ~/project
 
 jobs:
-  build:
+  build_and_upload:
     executor: android-executor
     steps:
       - checkout
@@ -23,8 +23,16 @@ jobs:
           path: android/app/build/outputs/apk/debug/app-debug.apk
           destination: app-debug.apk
 
+      # Upload APK to BrowserStack
+      - run:
+          name: Upload APK to BrowserStack
+          command: |
+            curl -u "$BROWSERSTACK_USERNAME:$BROWSERSTACK_ACCESS_KEY" \
+                 -X POST "https://api-cloud.browserstack.com/app-automate/upload" \
+                 -F "file=@android/app/build/outputs/apk/debug/app-debug.apk"
+
 workflows:
   version: 2
-  build_android:
+  build_and_test_apk:
     jobs:
-      - build
+      - build_and_upload
