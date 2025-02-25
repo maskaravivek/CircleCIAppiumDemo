@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">CircleCIAppiumDemo</string>
+    <string name="enter_user_name">Username</string>
+    <string name="enter_user_password">Password</string>
+    <string name="circleci_demo">CircleCI Demo</string>
+    <string name="login">Login</string>
+    <string name="display_user_name">Logged in as %s!</string>
+    <string name="login_error">Username and password cannot be empty!</string>
+</resources>

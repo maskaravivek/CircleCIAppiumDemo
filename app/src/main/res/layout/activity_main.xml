@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="12dp"
+    tools:context=".MainActivity">
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/circleci_demo"
+        android:layout_marginTop="12dp"
+        android:textSize="32sp"
+        android:layout_centerHorizontal="true"
+        android:contentDescription="appTitle" />
+
+    <LinearLayout
+        android:id="@+id/login_container"
+        android:layout_width="match_parent"
+        android:layout_below="@id/title"
+        android:layout_centerHorizontal="true"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <EditText
+            android:id="@+id/user_name_field"
+            android:hint="@string/enter_user_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text"
+            android:contentDescription="usernameField" />
+
+        <EditText
+            android:id="@+id/user_password_field"
+            android:hint="@string/enter_user_password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPassword"
+            android:contentDescription="passwordField" />
+
+        <Button
+            android:id="@+id/login_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/login"
+            android:layout_marginTop="12dp"
+            android:contentDescription="loginButton" />
+
+        <TextView
+            android:id="@+id/display_user_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Hello World!"
+            android:layout_marginTop="12dp"
+            android:layout_centerHorizontal="true"
+            android:contentDescription="displayUserName" />
+    </LinearLayout>
+
+</RelativeLayout>
