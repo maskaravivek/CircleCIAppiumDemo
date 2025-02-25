@@ -1,0 +1,39 @@
+version: 2.1
+
+executors:
+  android-executor:
+    docker:
+      - image: cimg/android:2024.02
+    working_directory: ~/project
+
+jobs:
+  build:
+    executor: android-executor
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - v1-gradle-{{ checksum "android/build.gradle" }}-{{ checksum "android/app/build.gradle" }}
+            - v1-gradle-
+      - run:
+          name: Grant execute permission to Gradle wrapper
+          command: chmod +x android/gradlew
+      - run:
+          name: Build Android App
+          command: |
+            cd android
+            ./gradlew assembleDebug
+      - store_artifacts:
+          path: android/app/build/outputs/apk/debug/app-debug.apk
+          destination: app-debug.apk
+      - save_cache:
+          paths:
+            - ~/.gradle/caches
+            - ~/.gradle/wrapper
+          key: v1-gradle-{{ checksum "android/build.gradle" }}-{{ checksum "android/app/build.gradle" }}
+
+workflows:
+  version: 2
+  build_android:
+    jobs:
+      - build
