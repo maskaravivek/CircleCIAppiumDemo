@@ -5,19 +5,11 @@ describe("Android Login Test", () => {
         const loginButton = await driver.$('//android.widget.Button[@resource-id="com.example.circleciappiumdemo:id/login_button"]');
         const displayUserName = await driver.$('//android.widget.TextView[@resource-id="com.example.circleciappiumdemo:id/display_user_name"]');
 
-        // Input username & password
         await usernameField.setValue("testUser");
         await passwordField.setValue("password123");
-
-        // Click login
         await loginButton.click();
-
-        // Wait for the displayed username to update
-        await driver.pause(2000);  // Allow time for login processing
-
-        // Validate displayed username
+        await driver.pause(2000);
         const displayedText = await displayUserName.getText();
-        
         expect(displayedText).toContain("testUser");
     });
 });
